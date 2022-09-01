@@ -35,4 +35,4 @@ def spacycode():
     return render_template('homepace.html',nershow=Markup(showNER))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host="192.168.56.1",port="80")
