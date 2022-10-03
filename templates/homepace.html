@@ -55,6 +55,15 @@
             <input id="txt" type="submit" name="sub1" value="OK">
         </form>
         <span>{{nershow}}</span>
+        <form action="/testmodel" method="post">
+            <p>ตรวจสอบข่าวจริงหรือไม่????</p>
+            <textarea  id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า" name="spatext1"></textarea><br>
+            <input id="txt" type="submit" name="sub2" value="OK">
+        </form>
+        <p>{%if facknewtest1%}
+            {{facknewtest1}}
+           {% endif%}
+        </p>
     </center>
     </div>
 </body>
