@@ -152,6 +152,16 @@
                 {{facknewtest1}}
             {% endif%}
         </label>
+        <form action="/sentimentanalysis" method="post">
+            <span id="t1">Sentiment Analysis (positive, negative, or neutral) </span>
+            <textarea  id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า" name="spatext2"></textarea><br>
+            <button class="btn-1" type="submit">OK</button>
+        </form>
+        <label id="l1">Result Sentiment :
+            {%if chacksentiment%}
+                {{chacksentiment}}
+            {% endif%}
+        </label>
     </center>
     </div>
 </body>

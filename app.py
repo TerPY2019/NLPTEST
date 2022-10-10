@@ -1,5 +1,7 @@
 from lib2to3.pgen2 import token
 from flask import Flask,render_template,request,Markup
+from matplotlib.pyplot import text
+from textblob import TextBlob
 import os
 import test
 import spacy
@@ -69,5 +71,20 @@ def get_prediction(text, convert_to_label=False):
         return d[int(probs.argmax())]
     else:
         return int(probs.argmax())
+@app.route('/sentimentanalysis',methods=["post","get"])
+def sentimentanalysisfu():
+    nametext2 = request.form.get('spatext2')
+    chacksentiment = chack(nametext2)
+    return render_template('homepace.html',chacksentiment=chacksentiment)
+def chack(nametext):
+     #สร้างtext object
+    blob_two_cities = TextBlob(nametext)
+    if blob_two_cities.sentiment[0] < 0:
+        text1 = "Negative"
+    elif blob_two_cities.sentiment[0] == 0:
+        text1 = "Neutral"
+    else:
+        text1 = "positive"
+    return(text1)
 if __name__ == '__main__':
     app.run(debug=True,host="192.168.56.1",port="80")
