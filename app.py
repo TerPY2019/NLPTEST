@@ -1,6 +1,6 @@
 from lib2to3.pgen2 import token
 from flask import Flask,render_template,request,Markup
-from matplotlib.pyplot import text
+from matplotlib.pyplot import show, text
 from textblob import TextBlob
 import os
 import test
@@ -39,13 +39,15 @@ def method_name():
     toptfidf = textnlp.topfivetfidf()
     return render_template('homepace.html',show=addtoken,setext=strtext,bowtopfive=topbow,tfidftopfive=toptfidf)
 
-@app.route('/spacytext',methods=["post","get"])
+@app.route('/spacytext',methods=["POST","GET"])
 def spacycode():
-    nametext = request.form.get('spatext')
+    # nametext = request.form.get('spatext')
+    nametext = request.form.get('text')
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(nametext)
     showNER = displacy.render(doc,style="ent")
-    return render_template('homepace.html',nershow=Markup(showNER))
+    return Markup(showNER)
+    # return render_template('homepace.html',nershow=Markup(showNER))
 
 @app.route('/testmodel',methods=["post","get"])
 def facknew():
@@ -73,9 +75,10 @@ def get_prediction(text, convert_to_label=False):
         return int(probs.argmax())
 @app.route('/sentimentanalysis',methods=["post","get"])
 def sentimentanalysisfu():
-    nametext2 = request.form.get('spatext2')
+    nametext2 = request.form.get('satext')
     chacksentiment = chack(nametext2)
-    return render_template('homepace.html',chacksentiment=chacksentiment)
+    return Markup(chacksentiment)
+    # return render_template('homepace.html',chacksentiment=chacksentiment)
 def chack(nametext):
      #สร้างtext object
     blob_two_cities = TextBlob(nametext)
@@ -87,4 +90,5 @@ def chack(nametext):
         text1 = "positive"
     return(text1)
 if __name__ == '__main__':
-    app.run(debug=True,host="192.168.56.1",port="80")
+    # app.run(debug=True)
+    app.run(debug=True,host="192.168.1.118",port="80")

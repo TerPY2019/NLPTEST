@@ -1,9 +1,12 @@
 <html>
+
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title></title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&display=swap');
-        button{
+
+        button {
             padding: 20px 50px;
             font-size: 1.5rem;
             cursor: pointer;
@@ -13,27 +16,33 @@
             margin-top: 20px;
             transition: all 0.25s ease;
         }
-        .btn-1{
+
+        .btn-1 {
             background: black;
             color: #f8f8f8;
             border-radius: 30px;
             transition: all 0.25s ease;
             position: relative;
         }
+
         .btn-1:hover {
-            transform:translate(-12px,-12px);
+            transform: translate(-12px, -12px);
         }
+
         .btn-1:hover::before {
-            transform:translate(12px,12px);
+            transform: translate(12px, 12px);
         }
+
         .btn-1:hover::after {
-            transform:translate(6px,6px);
+            transform: translate(6px, 6px);
         }
-        .btn-1::after,.btn-1::before{
+
+        .btn-1::after,
+        .btn-1::before {
             content: "";
             position: absolute;
             opacity: 0.3;
-            border-radius:inherit ;
+            border-radius: inherit;
             background: black;
             width: 100%;
             height: 100%;
@@ -42,40 +51,48 @@
             z-index: -1;
             transition: all 0.25s ease;
         }
-        #bt{
+
+        #bt {
             background-color: rgb(99, 107, 121);
             padding-top: 10px;
         }
-        #centerpoin{
+
+        #centerpoin {
             font-size: 40px;
             text-shadow: 2px 2px 5px red;
         }
-        #stxt{
-            width:30%;
+
+        #stxt {
+            width: 30%;
             height: 50px;
             font-size: 30px;
             border-radius: 10px;
             border-color: brown;
         }
-        pre{
+
+        pre {
             font-size: 40px;
         }
-        p{
+
+        p {
             font-size: 40px;
         }
-        #tsize{
+
+        #tsize {
             width: 50%;
             height: 50%;
             border-radius: 30px;
             font-size: 30px;
             padding: 10px;
         }
-        #t1{
+
+        #t1 {
             margin-top: 20px;
             margin-bottom: 20px;
             font-size: 40px;
         }
-        #stex{
+
+        #stex {
             width: 80%;
             height: 200px;
             padding: 12px 20px;
@@ -86,6 +103,7 @@
             resize: none;
             font-size: 30px;
         }
+
         span {
             color: rgb(0, 201, 246);
             position: relative;
@@ -97,6 +115,7 @@
             letter-spacing: 0.05em;
             display: inline-block;
         }
+
         span:before {
             position: absolute;
             left: 0;
@@ -105,67 +124,78 @@
 
             filter: url(#motion-blur-filter);
         }
+
         svg {
             display: none;
         }
-        #l1{
+
+        #l1 {
             font-size: 30px;
             color: aqua;
         }
     </style>
 </head>
+
 <body>
     <svg xmlns="http://www.w3.org/2000/svg">
         <!-- filterUnits is required to prevent clipping the blur outside the viewBox -->
-          <filter id="motion-blur-filter" filterUnits="userSpaceOnUse">
+        <filter id="motion-blur-filter" filterUnits="userSpaceOnUse">
             <!-- We only want horizontal blurring. x: 100, y: 0 -->
-              <feGaussianBlur stdDeviation="100 0"></feGaussianBlur>
-          </filter>
-      </svg>
+            <feGaussianBlur stdDeviation="100 0"></feGaussianBlur>
+        </filter>
+    </svg>
     <div id="bt">
         <center><span filter-content="S">Welcome To NLTK</span>
-        <form enctype="multipart/form-data" action="\conver_nlp" method="post">
-            <input id="txt" name="textfire[]" multiple type="file" /><br><br>
-            <label id="l1">หาคำในไฟล์ที่คุณเลือก : </label>
-            <input id="stxt" type="text" name="stext" placeholder="ค้นหาข้อความ"><br><br>
-            <button class="btn-1" type="submit">OK</button>
-        </form>
-        <!-- <p>{{ show }}</p> -->
-        <p>มีข้อความนี้หรือไม่ : {{ setext }} </p>
-        <h1>BOW TOP 5 SHOW</h1><br>
-        <textarea id="tsize" >{{ bowtopfive }}</textarea><br><br>
-        <h1>TF-IDF TOP 5 Each fileSHOW</h1><br>
-        <textarea id="tsize" >{{ tfidftopfive }}</textarea>
-        <form action="/spacytext" method="post">
-            <span id="t1">Enter your text here...</span>
-            <textarea  id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า" name="spatext"></textarea><br>
-            <button class="btn-1" type="submit">OK</button>
-        </form>
-        <p>{{nershow}}</p>
-        <form action="/testmodel" method="post">
-            <span id="t1">Check information NEWS (Fake or Reliable)</span>
-            <textarea  id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า" name="spatext1"></textarea><br>
-            <button class="btn-1" type="submit">OK</button>
-        </form>
-        <label id="l1">Result NEWs :
-            {%if facknewtest1%}
+            <form enctype="multipart/form-data" action="\conver_nlp" method="post">
+                <input id="txt" name="textfire[]" multiple type="file" /><br><br>
+                <label id="l1">หาคำในไฟล์ที่คุณเลือก : </label>
+                <input id="stxt" type="text" name="stext" placeholder="ค้นหาข้อความ"><br><br>
+                <button class="btn-1" type="submit">OK</button>
+            </form>
+            <!-- <p>{{ show }}</p> -->
+            <p>มีข้อความนี้หรือไม่ : {{ setext }} </p>
+            <h1>BOW TOP 5 SHOW</h1><br>
+            <textarea id="tsize">{{ bowtopfive }}</textarea><br><br>
+            <h1>TF-IDF TOP 5 Each fileSHOW</h1><br>
+            <textarea id="tsize">{{ tfidftopfive }}</textarea>
+            <br>
+            <!-- <form action="/spacytext" method="post"> -->
+            <form>
+                <span id="t1">Enter your text here...</span>
+                <textarea id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า" name="spatext"></textarea><br>
+                <button class="btn-1" type="button" onclick="process_spacy()">OK</button>
+            </form>
+            <!-- <p>{{nershow}}</p> -->
+            <p id="nershow" style="font-size:20px;padding: 10px;border:black solid 5px;background-color: aliceblue; height: 35%; width: 70%;"></p>
+            <form action="/testmodel" method="post">
+                <span id="t1">Check information NEWS (Fake or Reliable)</span>
+                <textarea id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า"
+                    name="spatext1"></textarea><br>
+                <button class="btn-1" type="submit">OK</button>
+            </form>
+            <label id="l1">Result NEWs :
+                {%if facknewtest1%}
                 {{facknewtest1}}
-            {% endif%}
-        </label>
-        <form action="/sentimentanalysis" method="post">
-            <span id="t1">Sentiment Analysis (positive, negative, or neutral) </span>
-            <textarea  id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า" name="spatext2"></textarea><br>
-            <button class="btn-1" type="submit">OK</button>
-        </form>
-        <label id="l1">Result Sentiment :
-            {%if chacksentiment%}
-                {{chacksentiment}}
-            {% endif%}
-        </label>
-    </center>
+                {% endif%}
+            </label>
+            <form>
+            <!-- <form action="/sentimentanalysis" method="post"> -->
+                <span id="t1">Sentiment Analysis (positive, negative, or neutral) </span>
+                <textarea id="stex" cols="50" rows="20" placeholder="ใส่ข้อความได้เลยจ้า"name="spatext2"></textarea><br>
+                <button class="btn-1" type="button" onclick="process_sentimentanalysis()">OK</button>
+            </form>
+            <label id="l1">Result Sentiment :</label><p id="chacksentiment" style="font-size:28px;"></p>
+        </center>
     </div>
+    <script src=".\static\funtion.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
 </body>
+
+
 </html>
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
