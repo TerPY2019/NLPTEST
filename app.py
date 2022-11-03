@@ -1,4 +1,7 @@
+import ast
+from importlib.resources import path
 from lib2to3.pgen2 import token
+from shutil import rmtree
 from flask import Flask,render_template,request,Markup
 from matplotlib.pyplot import show, text
 from textblob import TextBlob
@@ -17,21 +20,37 @@ import pathlib
 from transformers import AutoTokenizer,AutoModelForSequenceClassification
 from transformers import BertTokenizerFast, BertForSequenceClassification
 from spacy import displacy
+
 app = Flask(__name__)
+paths = os.getcwd()+"\savefile"
+
 @app.route('/')
 def hello():
     return render_template('homepace.html')
 
-paths = os.getcwd()+"\savefile"
-@app.route('/conver_nlp',methods=["post"])
-def method_name():
+@app.route('/upload',methods=['post'])
+def upload():
     namefile = request.files.getlist("textfire[]")
-    stext = request.form.get('stext')
-    tatalfile = []
+    
+    if os.path.exists(paths):
+        for file in os.listdir(paths):
+            os.remove(os.path.join(paths,file))
+
     for i in namefile:
         joinpath = os.path.join(paths,i.filename)
         i.save(joinpath)
-        tatalfile.append(joinpath)
+    print("upload succes!")
+
+    return render_template('homepace.html')
+
+@app.route('/conver_nlp',methods=["post"])
+def method_name():
+    tatalfile = []
+    stext = request.form.get('stext')
+    for file in os.listdir(paths):
+        fullPatch = os.path.join(paths,file)
+        tatalfile.append(fullPatch)
+    
     textnlp = test.bow(tatalfile)
     addtoken = textnlp.ctoken()
     strtext = textnlp.dicttext(stext)
@@ -41,19 +60,22 @@ def method_name():
 
 @app.route('/spacytext',methods=["POST","GET"])
 def spacycode():
-    # nametext = request.form.get('spatext')
     nametext = request.form.get('text')
+    nametext = nametext.replace("\n\n","\n")
+    options = request.form.getlist('options')[0]
+    options = ast.literal_eval(options)
+
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(nametext)
-    showNER = displacy.render(doc,style="ent")
-    return Markup(showNER)
-    # return render_template('homepace.html',nershow=Markup(showNER))
+    options = {'ents':options}
+    showNER = displacy.render(doc,style="ent",options=options)
+    return showNER
 
 @app.route('/testmodel',methods=["post","get"])
 def facknew():
     nametext1 = request.form.get('spatext1')
     facknewtest  = get_prediction(nametext1, convert_to_label=True)
-    return render_template('homepace.html',facknewtest1=facknewtest)
+    return facknewtest
 def get_prediction(text, convert_to_label=False):
     model_path = f"{str(pathlib.Path(__file__).parent.resolve().as_posix())}/fake-news-dataset-ter-model"
     model = AutoModelForSequenceClassification.from_pretrained(model_path)
@@ -89,6 +111,7 @@ def chack(nametext):
     else:
         text1 = "positive"
     return(text1)
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(debug=True,host="192.168.1.118",port="80")
